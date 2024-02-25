@@ -1,6 +1,6 @@
-[TOC]
-
 # EduAssistant
+#### Description
+todo
 
 #### Run and debug
 1.  Регистрируем бота через Bot.Father, получаем токен
