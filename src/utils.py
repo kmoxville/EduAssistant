@@ -17,7 +17,7 @@ def get_args() -> argparse.Namespace:
         prog='EduAssistant',
         description='What the program does',
         epilog='Text at the bottom of help')
-    parser.add_argument('--config', 'config.yaml',
+    parser.add_argument('--config',
                         type=str,
                         required=True,
                         help='Configuration file')

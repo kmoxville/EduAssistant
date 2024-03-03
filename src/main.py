@@ -8,14 +8,9 @@ from edu_bot import EduBot
 
 
 async def main() -> None:
-    try:
-        args = get_args()
-        config = load_config(args.config)
-    except:
-        print('Видимо используется не VSCode')
-        config = load_config("config.yaml")
+    args = get_args()
+    config = load_config(args.config)
     edu_bot = EduBot(config)
-
     await edu_bot.start()
 
 
