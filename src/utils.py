@@ -14,10 +14,10 @@ def get_args() -> argparse.Namespace:
         description='What the program does',
         epilog='Text at the bottom of help')
 
-    parser.add_argument('--token', 
+    parser.add_argument('--config', 
         type=str,
         required=True,
-        help='The token from Bot.Father')
+        help='Configuration file')
 
     args = parser.parse_args()
     return args
