@@ -1,0 +1,14 @@
+Telegram:
+  token: YOUR_TELEGRAM_BOT_TOKEN
+
+Database:
+  host: localhost
+  port: 5432
+  username: admin
+  password: password123
+  database_name: bot_database
+
+Admins:
+  - username: admin_user1
+  - username: admin_user2
+  - username: admin_user3

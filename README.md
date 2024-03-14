@@ -3,7 +3,7 @@
 todo
 
 #### Run and debug
-1.  Регистрируем бота через Bot.Father, получаем токен
+1.  Регистрируем бота через BotFather, получаем токен
 2. Для тех, кто пользуется vcs, создаем launch.json с примерно таким содержанием:
 
 ```
@@ -14,10 +14,10 @@ todo
                 "name": "Python Debugger",
                 "type": "debugpy",
                 "request": "launch",
-                "program": "src/edu_assistant.py",
+                "program": "src/main.py",
                 "cwd": "${workspaceFolder}",
                 "args": [
-                    "--token", "YOUR_TOKEN",
+                    "--config", "YOUR_CONFIG_FILE",
                 ],
                 "console": "integratedTerminal"
             }
@@ -25,5 +25,5 @@ todo
     }
 ```
 
-3. На место YOUR_TOKEN подставляем свой токен
+3. На место YOUR_CONFIG_FILE подставляем свой путь к файлу конфигурации, шаблон в папке config скопировать можете
 4. Запускаем
