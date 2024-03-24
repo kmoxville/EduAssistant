@@ -9,6 +9,5 @@ Database:
   database_name: bot_database
 
 Admins:
-  - username: admin_user1
-  - username: admin_user2
-  - username: admin_user3
+  telegram_user_id: 444
+  username: Vladimir

@@ -10,7 +10,8 @@ config = load_config("config.yaml")
 
 # Присваиваем переменные для дальнейшего более простого использования
 bot_token = config['Telegram']['token']
-superadmin = config['Admins']
+superadmin = config['Admins']['telegram_user_id']
+superadmin_name = config['Admins']['user_name']
 db_name = config['Database']['database_name']
 db_user = config['Database']['username']
 pwd = config['Database']['password']
