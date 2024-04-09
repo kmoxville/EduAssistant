@@ -11,6 +11,7 @@ session = Session()
 
 # Создание пользователей
 user1 = User(telegram_user_id=420443281, user_name='Vladimir', is_admin=True)
+user2 = User(telegram_user_id=953777088, user_name='HIGG_89', is_admin=True)
 
 # Создание пунктов меню
 menu1 = Menu(name='url', url='/url')
@@ -36,7 +37,7 @@ answer2 = Answer(menu=menu2, author=user1, answer='''Список доступн
 ''')
 
 # Добавление объектов в сессию и сохранение изменений
-session.add_all([user1, menu1, menu2, answer1, answer2])
+session.add_all([user1, user2, menu1, menu2, answer1, answer2])
 session.commit()
 
 # Закрытие сессии
