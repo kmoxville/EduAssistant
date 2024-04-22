@@ -43,6 +43,7 @@ answer3 = Answer(menu=menu3, author=user1, answer='''https://www.utmn.ru/pay/\n
 ''')
 
 # Добавление объектов в сессию и сохранение изменений
+
 session.add_all([user1, menu1, menu2, menu3, answer1, answer2, answer3])
 session.commit()
 
