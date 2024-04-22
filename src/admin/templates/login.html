@@ -1,19 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-    <h1>Login</h1>
-    <form method="post" action="{{ url_for('login') }}">
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
-        <br>
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+{% extends 'layout.html' %}
+
+{% block body %}
+    <div class="container pt-3">
+        <div class="row">
+            <div class="col-5 mx-auto">
+                <h3>Login form</h3>
+                <form method="post" action="{{ url_for('login') }}">
+                    <div class="form-group">
+                        <label for="username" class="form-label" >Username:</label>
+                        <input type="text" name="username" id="username" class="form-control"  required>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password: </label>
+                        <input type="password" name="password" id="password" class="form-control"  required>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
