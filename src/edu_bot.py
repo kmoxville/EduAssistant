@@ -6,7 +6,7 @@ from aiogram.types import Message
 from aiogram.utils.markdown import hbold
 from sqlalchemy.orm import sessionmaker
 
-from db_model import Menu, Answer, engine
+from db_model import Menu, Answer, User
 from utils import singleton
 from main_menu import url_dict, session, set_main_menu
 
@@ -25,6 +25,15 @@ class EduBot:
 
         @dp.message(CommandStart())
         async def command_start_handler(message: Message) -> None:
+            # Проверяем и добавляем пользователя в базу
+            user_name = message.from_user.full_name
+            telegram_user_id = message.from_user.id
+            existing_user = session.query(User).filter_by(telegram_user_id=telegram_user_id).first()
+            if existing_user is None:
+                new_user = User(telegram_user_id=telegram_user_id, user_name=user_name)
+                session.add(new_user)
+                session.commit()
+            session.close()
             await message.answer(f"Hello, {hbold(message.from_user.full_name)}!")
 
         # Модель для получения Id пользователя в TG
