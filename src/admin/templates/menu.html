@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h3 class='text-center text-muted mb-3'>Админ панель для работы с меню</h3>
+  <table align="right">
+  <th>
+  <td ><p class='text-right'><a href='{{url_for("index")}}' class='btn btn-light '>Qestions</a></p></td>
+  <td ><p class='text-right'><a href='{{url_for("logout")}}' class='btn btn-light '>Logout</a></p></td>
+  </th>
+</table>
+<p class='text-right'><a href='{{url_for("add_menu")}}' class='btn btn-success '>+Добавить пункт меню</a></p>
+
+   <table class='table table-bordered'>
+    <thead>
+      <th>ID</th>
+      <th>Наименование</th>
+      <th>Ссылка</th>
+      <th>Ответ</th>
+      <th>Редактировать</th>
+      <th>Удалить</th>
+    </thead>
+    <tbody>
+      {% for row in datas %}
+        <tr>
+          <td>{{loop.index}}</td>
+          <td>{{row.name}}</td>
+          <td>{{row.url}}</td>
+          <td>{{row.answer}}</td>
+          <td><a href='{{url_for("edit_menu",id=row.id)}}' class='btn btn-primary'>Редактировать</a></td>
+          <td><a href='{{url_for("delete_menu",id=row.id)}}' class='btn btn-danger' onclick='return confirm("Вы уверены?")'>Удалить</a></td>
+        </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock %}
