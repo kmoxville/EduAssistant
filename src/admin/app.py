@@ -6,6 +6,7 @@ app = Flask(__name__)
 db1 = "../questions.db"
 db2 = "../sqlite3.db"
 
+
 # Вынести в отдельный файл все что связано с авторизацией.
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -84,7 +85,7 @@ def edit_question(id):
     con = sql.connect(db1)
     con.row_factory = sql.Row
     cur = con.cursor()
-    cur.execute("select * from questions where id=?", (id))
+    cur.execute("select * from questions where id=?", (id,))
     data = cur.fetchone()
     return render_template("edit_question.html", datas=data)
 
@@ -94,7 +95,7 @@ def edit_question(id):
 def delete_question(id):
     con = sql.connect(db1)
     cur = con.cursor()
-    cur.execute("delete from questions where id=?", (id))
+    cur.execute("delete from questions where id=?", (id,))
     con.commit()
     flash('question deleted', 'warning')
     return redirect(url_for("index"))
@@ -154,7 +155,7 @@ def edit_menu(id):
     a.answer as answer 
     from menu as m 
     join answers as a on a.menu_id=m.id  
-    join users as u on u.id=a.author_id  where a.id=? """, (id))
+    join users as u on u.id=a.author_id  where a.id=? """, (id,))
     data = cur.fetchone()
     return render_template("edit_menu.html", datas=data)
 
@@ -168,18 +169,17 @@ def add_menu():
         answer = request.form['answer']
         con = sql.connect(db2)
         cur = con.cursor()
-        cur.execute(f"insert into menu(name,url) values (?,?)",(name, url))
+        cur.execute(f"insert into menu(name,url) values (?,?)", (name, url))
         con.commit()
         cur.execute("""select max(id) from menu""")
         max_id = cur.fetchone()
         print(max_id[0])
-        cur.execute(f"insert into answers (menu_id,author_id,answer) values (?,?,?)",(max_id[0],1,answer))
+        cur.execute(f"insert into answers (menu_id,author_id,answer) values (?,?,?)", (max_id[0], 1, answer))
         con.commit()
 
         flash('menu added', 'success')
         return redirect(url_for("menu"))
     return render_template("add_menu.html")
-
 
 
 if __name__ == '__main__':

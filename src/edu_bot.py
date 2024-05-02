@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 from db_model import Menu, Answer, User
 from utils import singleton
 from main_menu import url_dict, session, set_main_menu
-
+from nlp.find_answer import find_answer
 
 @singleton
 @dataclass
@@ -52,13 +52,17 @@ class EduBot:
                     for row in answer:
                         await message.answer(f"{row.answer}")
                 else:
+                    answer = find_answer(message.text)
+                    if answer!=None:
+                        await message.answer(f"{answer}")
                     # Если ничего не найдено, возвращаем то что пользователь ввел
                     # await message.send_copy(chat_id=message.chat.id)
                     # Если ничего не найдено, предлагаем пользователю обратиться к куратору
                     # (в данный момент ссылается на самого пользователя)
-                    await message.answer(
-                        f'Похоже вашего вопроса нет в базе данных, но вы можете задать его своему '
-                        f'<b><a href="tg://user?id={message.from_user.id}">куратору</a></b>')
+                    else:
+                        await message.answer(
+                            f'Похоже вашего вопроса нет в базе данных, но вы можете задать его своему '
+                            f'<b><a href="tg://user?id={message.from_user.id}">куратору</a></b>')
 
             except TypeError:
                 # Если что то пошло не так выводим эту строчку
