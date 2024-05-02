@@ -48,7 +48,7 @@ def index():
     con = sql.connect(db1)
     con.row_factory = sql.Row
     cur = con.cursor()
-    cur.execute("select * from questions")
+    cur.execute("select * from questions where id<>1")
     data = cur.fetchall()
     return render_template("index.html", datas=data)
 
