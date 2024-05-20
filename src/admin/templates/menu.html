@@ -1,15 +1,16 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <h3 class='text-center text-muted mb-3'>Админ панель для работы с меню</h3>
-  <table align="right">
-  <th>
-  <td ><p class='text-right'><a href='{{url_for("index")}}' class='btn btn-light '>Qestions</a></p></td>
-  <td ><p class='text-right'><a href='{{url_for("logout")}}' class='btn btn-light '>Logout</a></p></td>
-  </th>
-</table>
-<p class='text-right'><a href='{{url_for("add_menu")}}' class='btn btn-success '>+Добавить пункт меню</a></p>
-
+<div class="sticky-top text-center text-muted mb-3 bg-light">
+    <h3 class='text-center text-muted mb-3'>Админ панель для работы с меню</h3>
+    <table align="right">
+      <th>
+        <td ><p class='text-right'><a href='{{url_for("index")}}' class='btn btn-light '>Qestions</a></p></td>
+        <td ><p class='text-right'><a href='{{url_for("logout")}}' class='btn btn-light '>Logout</a></p></td>
+      </th>
+    </table>
+    <p class='text-right'><a href='{{url_for("add_menu")}}' class='btn btn-success '>+Добавить пункт меню</a></p>
+</div>
    <table class='table table-bordered'>
     <thead>
       <th>ID</th>

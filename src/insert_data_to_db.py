@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db_model import User, Menu, Answer, superadmin, superadmin_name
+from src.database.db_model import User, Menu,  superadmin, superadmin_name
 
 # Создание соединения с базой данных
 engine = create_engine('sqlite:///sqlite3.db')
@@ -18,7 +18,7 @@ menu2 = Menu(name='help', url='/help')
 menu3 = Menu(name='pay', url='/pay')
 
 # Создание ответов
-answer1 = Answer(menu=menu1, author=user1, answer='''https://netology.ru/profile Сайт Нетологии \n
+answer1 = Menu(menu=menu1, author=user1, answer='''https://netology.ru/profile Сайт Нетологии \n
 Здесь ты найдешь записи прошедших занятий, а так же будешь сдавать домашку и лабораторные\n
 https://utmn.modeus.org/ Модеус(оценки, расписание \n
 Здесь ты найдешь все что касается твоего расписания в ТЮМГУ, а так же можно посмотреть свою
@@ -30,14 +30,14 @@ https://mail.utmn.ru/ корпоративная почта студента \n
 Не забывай читать почту, там бывает довольно важная инфомация касаемая учебного процесса.\n
 ''')
 
-answer2 = Answer(menu=menu2, author=user1, answer='''Список доступных команд:\n
+answer2 = Menu(menu=menu2, author=user1, answer='''Список доступных команд:\n
 /start - начать все сначала
 /url - ссылки
 /user_id - получить свой идентификатор в ТГ
 /pay
 ''')
 
-answer3 = Answer(menu=menu3, author=user1, answer='''https://www.utmn.ru/pay/\n
+answer3 = Menu(menu=menu3, author=user1, answer='''https://www.utmn.ru/pay/\n
 Совершить оплату вы можете через платёжный сервис ТюмГУ. Согласно договору оплату необходимо вносить два раза в год 
 до 15 декабря и до 15 июля.
 ''')

@@ -2,7 +2,7 @@
 # import utils
 import asyncio
 
-from config import Config
+from src.config.config import Config
 from edu_bot import EduBot
 from utils import *
 

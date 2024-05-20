@@ -4,12 +4,12 @@ from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message
 from aiogram.utils.markdown import hbold
-from sqlalchemy.orm import sessionmaker
 
-from db_model import Menu, Answer, User
+
+from src.database.db_model import Menu,  User
 from utils import singleton
-from main_menu import url_dict, session, set_main_menu
-
+from menu_commands import url_dict, session, set_main_menu
+from nlp.find_answer import find_answer
 
 @singleton
 @dataclass
@@ -47,18 +47,21 @@ class EduBot:
             try:
                 # Проверяем есть ли значение в базе. Если есть то отдаем ответ
                 if message.text in url_dict:
-                    answer = session.query(Answer.answer).join(Menu, Menu.id == Answer.menu_id).filter(
-                        Menu.url == message.text).all()
+                    answer = session.query(Menu.answer).filter(Menu.url == message.text).all()
                     for row in answer:
                         await message.answer(f"{row.answer}")
                 else:
+                    answer = find_answer(message.text)
+                    if answer!=None:
+                        await message.answer(f"{answer}")
                     # Если ничего не найдено, возвращаем то что пользователь ввел
                     # await message.send_copy(chat_id=message.chat.id)
                     # Если ничего не найдено, предлагаем пользователю обратиться к куратору
                     # (в данный момент ссылается на самого пользователя)
-                    await message.answer(
-                        f'Похоже вашего вопроса нет в базе данных, но вы можете задать его своему '
-                        f'<b><a href="tg://user?id={message.from_user.id}">куратору</a></b>')
+                    else:
+                        await message.answer(
+                            f'Похоже я не знаю ответа на ваш вопрос, но вы можете задать его своему '
+                            f'<b><a href="https://t.me/kbaskakova_neto_vo">куратору</a></b>')
 
             except TypeError:
                 # Если что то пошло не так выводим эту строчку
