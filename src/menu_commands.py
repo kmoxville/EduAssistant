@@ -1,7 +1,7 @@
 from aiogram import Bot
 from aiogram.types import BotCommand
 from sqlalchemy.orm import sessionmaker
-from db_model import engine, Menu
+from src.database.db_model import engine, Menu
 
 # Соединяемся с БД  создаем сессию
 Session = sessionmaker(bind=engine)

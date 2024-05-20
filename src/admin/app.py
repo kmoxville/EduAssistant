@@ -1,51 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import  render_template, request, redirect, url_for, flash, session
 import sqlite3 as sql
-from functools import wraps
-
-app = Flask(__name__)
-db1 = "../questions.db"
-db2 = "../sqlite3.db"
-
-
-# Вынести в отдельный файл все что связано с авторизацией.
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        # Simple hardcoded check for demonstration purposes
-        if username == 'admin' and password == 'password':
-            session['logged_in'] = True
-            flash('Login successful', 'success')
-            return redirect(url_for("index"))
-        else:
-            flash('Invalid credentials. Please try again.', 'danger')
-    return render_template("login.html")
-
-
-@app.route("/logout")
-def logout():
-    session.pop('logged_in', None)
-    flash('Logged out successfully', 'success')
-    return redirect(url_for('login'))
-
-
-def login_required(func):
-    @wraps(func)
-    def decorated_function(*args, **kwargs):
-        if not session.get('logged_in'):
-            return redirect(url_for('login'))
-        return func(*args, **kwargs)
-
-    return decorated_function
-
+from login import app, login_required
+from src.database.db_model import db
 
 @app.route("/")
 @app.route("/index")
 @login_required
 def index():
-    con = sql.connect(db1)
+    con = sql.connect(db)
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute("select * from questions where id<>1")
@@ -59,10 +21,11 @@ def add_question():
     if request.method == 'POST':
         question = request.form['question']
         answer = request.form['answer']
-        con = sql.connect(db1)
+        key_words = request.form['key_words']
+        con = sql.connect(db)
         cur = con.cursor()
-        cur.execute(f"insert into questions(question,answer) values (?,?)",
-                    (question, answer))
+        cur.execute(f"insert into questions(question,answer, key_words) values (?,?, ?)",
+                    (question, answer, key_words))
         con.commit()
         flash('question added', 'success')
         return redirect(url_for("index"))
@@ -75,14 +38,15 @@ def edit_question(id):
     if request.method == 'POST':
         question = request.form['question']
         answer = request.form['answer']
-        con = sql.connect(db1)
+        key_words = request.form['key_words']
+        con = sql.connect(db)
         cur = con.cursor()
         cur.execute(
-            "update questions set question=?,answer=? where id=?", (question, answer, id))
+            "update questions set question=?,answer=?, key_words=? where id=?", (question, answer, key_words,id))
         con.commit()
         flash('question updated', 'success')
         return redirect(url_for("index"))
-    con = sql.connect(db1)
+    con = sql.connect(db)
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute("select * from questions where id=?", (id,))
@@ -93,7 +57,7 @@ def edit_question(id):
 @app.route("/delete_question/<string:id>", methods=['GET'])
 @login_required
 def delete_question(id):
-    con = sql.connect(db1)
+    con = sql.connect(db)
     cur = con.cursor()
     cur.execute("delete from questions where id=?", (id,))
     con.commit()
@@ -104,7 +68,7 @@ def delete_question(id):
 @app.route("/menu")
 @login_required
 def menu():
-    con = sql.connect(db2)
+    con = sql.connect(db)
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute("""select a.id as id,
@@ -121,7 +85,7 @@ def menu():
 @app.route("/delete_menu/<string:id>", methods=['GET'])
 @login_required
 def delete_menu(id):
-    con = sql.connect(db2)
+    con = sql.connect(db)
     cur = con.cursor()
     cur.execute("delete from answers where id=?", (id,))
     con.commit()
@@ -138,7 +102,7 @@ def edit_menu(id):
         name = request.form['name']
         url = request.form['url']
         answer = request.form['answer']
-        con = sql.connect(db2)
+        con = sql.connect(db)
         cur = con.cursor()
         cur.execute("update menu set name=?,url=? where id=?", (name, url, id))
         con.commit()
@@ -146,7 +110,7 @@ def edit_menu(id):
         con.commit()
         flash('menu updated', 'success')
         return redirect(url_for("menu"))
-    con = sql.connect(db2)
+    con = sql.connect(db)
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute("""select a.id as id,
@@ -167,7 +131,7 @@ def add_menu():
         name = request.form['name']
         url = request.form['url']
         answer = request.form['answer']
-        con = sql.connect(db2)
+        con = sql.connect(db)
         cur = con.cursor()
         cur.execute(f"insert into menu(name,url) values (?,?)", (name, url))
         con.commit()

@@ -3,7 +3,7 @@ import nltk
 import pymorphy3
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-
+from src.database.db_model import db
 
 def find_answer(text):
     # Вводим список знаков, которые игнорируем
@@ -28,10 +28,10 @@ def find_answer(text):
 
     my_question = preprocess(text, stop_words, punctuation_marks, morph)
 
-    db1 = "questions.db"
-    con = sql.connect(db1)
+    # db = "sqlite3.db"
+    con = sql.connect(db)
     cur = con.cursor()
-    cur.execute("select id,question from questions;")
+    cur.execute("select id,key_words from questions;")
     data = cur.fetchall()
     final_data = []
     for i in data:
@@ -51,7 +51,7 @@ def find_answer(text):
 
     answer_id = max(checker, key=checker.get)
     print(answer_id)
-    con = sql.connect(db1)
+    con = sql.connect(db)
     cur = con.cursor()
     cur.execute(f"select answer from questions where id in ({answer_id});")
     result = cur.fetchall()

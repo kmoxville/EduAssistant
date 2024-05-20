@@ -1,11 +1,11 @@
 import asyncio
 import logging
 
-from config_loader import load_config
+from config.config_loader import load_config
 from edu_bot import EduBot
 from utils import get_args
 
-# Подключаем логирование
+# Подключаем логированиеpip install pipreqs
 logger = logging.getLogger(__name__)
 
 
