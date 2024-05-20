@@ -31,6 +31,7 @@ todo
     }
 ```
 2.1 Если используете PyCharm то в настройках необходимо в script parametr прописать  --config "config/config.yaml"
+
 3. На место YOUR_CONFIG_FILE подставляем свой путь к файлу конфигурации, шаблон в папке config скопировать можете
 4. Запускаем main.py и app.py 
 Main.py - запускает бота 
